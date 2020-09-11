@@ -20,31 +20,33 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="请触碰我，让我饮马山泉">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xiaolin">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。 寻址方式寄存器寻址寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。 可指定的寄存器：R0~R7、A、B、DPTR 1例子：MOV A, R1	; 将 R1 中的值装入 A    直接寻址直接寻址是指令直接给出操作数所在单元的地址的寻址方式。指令中操作数部分给出直接地址，用 direct 表示。 可指定的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="51单片机汇编语言指令 —— 寻址方式">
+<meta property="og:url" content="http://example.com/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Xiaolin">
-<meta property="og:description" content="请触碰我，让我饮马山泉">
+<meta property="og:description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。 寻址方式寄存器寻址寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。 可指定的寄存器：R0~R7、A、B、DPTR 1例子：MOV A, R1	; 将 R1 中的值装入 A    直接寻址直接寻址是指令直接给出操作数所在单元的地址的寻址方式。指令中操作数部分给出直接地址，用 direct 表示。 可指定的">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-11T04:25:38.458Z">
 <meta property="article:author" content="Xiaolin">
-<meta property="article:tag" content="blog, hexo">
+<meta property="article:tag" content="51单片机">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Xiaolin</title>
+  <title>51单片机汇编语言指令 —— 寻址方式 | Xiaolin</title>
   
 
 
@@ -152,76 +154,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/11/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/xiaolin.jpg">
-      <meta itemprop="name" content="Xiaolin">
-      <meta itemprop="description" content="请触碰我，让我饮马山泉">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaolin">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/11/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/" class="post-title-link" itemprop="url">《C Primer Plus》浮点数舍入错误解释</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-11 12:10:39 / 修改时间：12:17:42" itemprop="dateCreated datePublished" datetime="2020-09-11T12:10:39+08:00">2020-09-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在《C Primer Plus》第六版的第59面中关于<code>浮点数舍入错误</code>的这个例子中，在第二段中对例子结果的解释有这样几句话：”如果把这个数加1，那么发生变化的是第21位。要正确运算……“。有些初学者一开始可能不太了解这段话的意思。</p>
-<p>因此，本文将从我自己的理解出发，对这个例子以及这段话作出我的解释，希望对遇到同样问题的你有所启发。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/11/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -237,10 +173,9 @@
       <meta itemprop="name" content="Xiaolin">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">51单片机汇编语言指令 —— 寻址方式</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          51单片机汇编语言指令 —— 寻址方式
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -264,7 +199,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。</p>
+        <p>本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。</p>
 <h1 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h1><h2 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h2><p>寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。</p>
 <p>可指定的寄存器：R0~R7、A、B、DPTR</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV A, R1	; 将 R1 中的值装入 A</span><br></pre></td></tr></table></figure>
@@ -317,94 +252,36 @@
 <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p><strong>在 MCS-51 系列单片机的存储空间中，指令究竟对哪个存储器空间进行操作是由指令操作码和寻址方式确定的。</strong></p>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>未完待续。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/51%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 51单片机</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/09/30/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E3%80%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/xiaolin.jpg">
-      <meta itemprop="name" content="Xiaolin">
-      <meta itemprop="description" content="请触碰我，让我饮马山泉">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaolin">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/09/30/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E3%80%8B/" class="post-title-link" itemprop="url">写在前面 《我的第一篇博客》</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-09-30 14:52:40" itemprop="dateCreated datePublished" datetime="2019-09-30T14:52:40+08:00">2019-09-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-11 12:08:53" itemprop="dateModified" datetime="2020-09-11T12:08:53+08:00">2020-09-11</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>茫茫互联网，能够打开这个博客，看到这篇博文，你我不失为一种缘分。</p>
-<p>今天写这篇文章，作为我的第一篇博客，是想做个简单的自我介绍，以及谈一谈我写博客的缘由以及对这个博客的定位。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/30/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E3%80%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/30/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E3%80%8B/" rel="prev" title="写在前面 《我的第一篇博客》">
+      <i class="fa fa-chevron-left"></i> 写在前面 《我的第一篇博客》
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/11/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/" rel="next" title="《C Primer Plus》浮点数舍入错误解释">
+      《C Primer Plus》浮点数舍入错误解释 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -457,6 +334,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">1.2.</span> <span class="nav-text">直接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">1.3.</span> <span class="nav-text">寄存器间接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E6%95%B0%E5%AF%BB%E5%9D%80"><span class="nav-number">1.4.</span> <span class="nav-text">立即数寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.</span> <span class="nav-text">变址寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="nav-number">1.6.</span> <span class="nav-text">相对寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%AF%BB%E5%9D%80"><span class="nav-number">1.7.</span> <span class="nav-text">位寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.8.</span> <span class="nav-text">综述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
