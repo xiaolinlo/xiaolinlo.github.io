@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pagelogo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文将简单认识 STM32 的端口复用与重映射。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STM32 端口复用与重映射基础知识">
+<meta property="og:url" content="http://example.com/2020/05/04/STM32/STM32%20%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8%E4%B8%8E%E9%87%8D%E6%98%A0%E5%B0%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Xiaolin">
+<meta property="og:description" content="本文将简单认识 STM32 的端口复用与重映射。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-04T08:09:00.000Z">
+<meta property="article:modified_time" content="2020-09-11T07:15:58.719Z">
+<meta property="article:author" content="Xiaolin">
+<meta property="article:tag" content="STM32">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/05/04/STM32/STM32%20%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8%E4%B8%8E%E9%87%8D%E6%98%A0%E5%B0%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>STM32 端口复用与重映射基础知识 | Xiaolin</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaolin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>目录</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/04/STM32/STM32%20%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8%E4%B8%8E%E9%87%8D%E6%98%A0%E5%B0%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xiaolin.jpg">
+      <meta itemprop="name" content="Xiaolin">
+      <meta itemprop="description" content="请触碰我，让我饮马山泉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaolin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          STM32 端口复用与重映射基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-04 16:09:00" itemprop="dateCreated datePublished" datetime="2020-05-04T16:09:00+08:00">2020-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-11 15:15:58" itemprop="dateModified" datetime="2020-09-11T15:15:58+08:00">2020-09-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文将简单认识 STM32 的端口复用与重映射。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》</p>
+<a id="more"></a>
+
+<hr>
+<h1 id="端口复用"><a href="#端口复用" class="headerlink" title="端口复用"></a>端口复用</h1><p>STM32 有很多的内置外设，这些外设的外部引脚都是与 GPIO 复用的。也就是说，一个 GPIO 如果可以复用为内置外设的功能引脚，那么当这个 GPIO 作为内置外设使用的时候，就叫做复用。 </p>
+<h2 id="复用端口初始化步骤："><a href="#复用端口初始化步骤：" class="headerlink" title="复用端口初始化步骤："></a>复用端口初始化步骤：</h2><ul>
+<li><p>GPIO 端口时钟使能；</p>
+</li>
+<li><p>复用的外设时钟使能；</p>
+</li>
+<li><p>端口模式配置： 在 IO 复用位内置外设功能引脚的时候，必须设置 GPIO 端口的模式。至于 在复用功能下 GPIO 的模式是怎么对应的，这个可以查看手册《STM32 中文参考手册》。</p>
+</li>
+</ul>
+<p>例子：复用串口 USART1</p>
+<p>通过查手册《STM32 中文参考手册》可知，串口 1 的引脚对应的 IO 为 PA9（USART1_TX），PA10（USZRT1_RX）。通过查看手册可知作为串口使用时PA9，PA10相应的端口模式设置。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); 	<span class="comment">// GPIO 端口时钟使能</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); 	<span class="comment">// 复用的外设时钟使能</span></span><br><span class="line"><span class="comment">//USART1_TX   PA9 复用推挽输出 </span></span><br><span class="line">GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; 				<span class="comment">// PA9</span></span><br><span class="line">GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; 		  <span class="comment">// 复用推挽输</span></span><br><span class="line">GPIO_Init(GPIOA, &amp;GPIO_InitStructure); </span><br><span class="line"><span class="comment">//USART1_RX   PA10 浮空输入</span></span><br><span class="line">GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;				<span class="comment">// PA10</span></span><br><span class="line">GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;   <span class="comment">// 浮空输入 </span></span><br><span class="line">GPIO_Init(GPIOA, &amp;GPIO_InitStructure);   </span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="端口重映射"><a href="#端口重映射" class="headerlink" title="端口重映射"></a>端口重映射</h1><p>为了使不同器件封装的外设 IO 功能数量达到最优，可以把一些复用功能重新映射到其他一 些引脚上。STM32 中有很多内置外设的输入输出引脚都具有重映射（remap）的功能。具体哪些内置外设可以重映射以及其对应关系在《STM32 中文参考手册》的“复用功能和调试配置”有讲解。</p>
+<h2 id="端口重映射步骤："><a href="#端口重映射步骤：" class="headerlink" title="端口重映射步骤："></a>端口重映射步骤：</h2><ul>
+<li>使能重映射的 GPIO 端口时钟；</li>
+<li>使能外设时钟；</li>
+<li>使能 AFIO 时钟；</li>
+<li>开启重映射。</li>
+</ul>
+<p>例子：串口 USART1 的重映射</p>
+<p>通过查手册可知，串口 1 的引脚对应的 IO 为 PA9（USART1_TX），PA10（USZRT1_RX）可以重新映射到管脚 PB6 和 PB7 。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使能 GPIOB 时钟</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);</span><br><span class="line"><span class="comment">// 使能串口 1 时钟</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);</span><br><span class="line"><span class="comment">// 使能 AFIO 时钟</span></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);</span><br><span class="line"><span class="comment">// 开启重映射</span></span><br><span class="line">GPIO_PinRemapConfig(GPIO_Remap_USART1, ENABLE);</span><br><span class="line"><span class="comment">// 重映射端口模式配置</span></span><br><span class="line">GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; 				<span class="comment">// PB6</span></span><br><span class="line">GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; </span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="部分重映射与完全重映射"><a href="#部分重映射与完全重映射" class="headerlink" title="部分重映射与完全重映射"></a>部分重映射与完全重映射</h2><p>部分重映射就是部分管脚和默认的是一样的，而部分管脚是重新映射到其他管脚。而完全重映射就是所有管脚都重新映射到其他管脚。</p>
+<p>从参考手册可知 USART1 只有完全重映射，而对于 USART3，存在部分重映射和完全重映射。如下表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">复用功能</th>
+<th align="center">没有重映射</th>
+<th align="center">部分重映射</th>
+<th align="center">完全重映射</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">USART3_TX</td>
+<td align="center">PB10</td>
+<td align="center">PC10</td>
+<td align="center">PD8</td>
+</tr>
+<tr>
+<td align="center">USART3_RX</td>
+<td align="center">PB11</td>
+<td align="center">PC11</td>
+<td align="center">PD9</td>
+</tr>
+<tr>
+<td align="center">USART3_CK</td>
+<td align="center">PB12</td>
+<td align="center">PC12</td>
+<td align="center">PD10</td>
+</tr>
+<tr>
+<td align="center">USART3_CTS</td>
+<td align="center">PB13</td>
+<td align="center">PB13</td>
+<td align="center">PD11</td>
+</tr>
+<tr>
+<td align="center">USART3_RTS</td>
+<td align="center">PB14</td>
+<td align="center">PB14</td>
+<td align="center">PD12</td>
+</tr>
+</tbody></table>
+<p>部分重映射就是 PB10，PB11，PB12 重映射到 PC10，PC11，PC12 上。而 PB13 和 PB14 和没有重映射情况一样。完全重映射就是将这两个脚重新映射到 PD11 和 PD12 上去。</p>
+<p>USART3 的部分重映射，我们调用函数方法为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIO_PinRemapConfig(GPIO_PartialRemap_USART3, ENABLE); </span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>以上便是本文的全部内容，感谢阅读。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/STM32/" rel="tag"># STM32</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/04/STM32/%E4%BD%BF%E7%94%A8UV5%E6%96%B0%E5%BB%BASTM32%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE/" rel="prev" title="使用UV5新建STM32工程项目">
+      <i class="fa fa-chevron-left"></i> 使用UV5新建STM32工程项目
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/05/STM32/STM32%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/" rel="next" title="STM32 时钟系统基础">
+      STM32 时钟系统基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">端口复用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8%E7%AB%AF%E5%8F%A3%E5%88%9D%E5%A7%8B%E5%8C%96%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">复用端口初始化步骤：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84"><span class="nav-number">2.</span> <span class="nav-text">端口重映射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E9%87%8D%E6%98%A0%E5%B0%84%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">端口重映射步骤：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E9%87%8D%E6%98%A0%E5%B0%84%E4%B8%8E%E5%AE%8C%E5%85%A8%E9%87%8D%E6%98%A0%E5%B0%84"><span class="nav-number">2.2.</span> <span class="nav-text">部分重映射与完全重映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaolin"
+      src="/images/xiaolin.jpg">
+  <p class="site-author-name" itemprop="name">Xiaolin</p>
+  <div class="site-description" itemprop="description">请触碰我，让我饮马山泉</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaolinlo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaolinlo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaolin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

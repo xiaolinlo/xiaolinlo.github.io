@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pagelogo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第四篇。如有错误，欢迎指正。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="51单片机汇编语言指令 (4) -- 算术运算类指令">
+<meta property="og:url" content="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(4)%20--%20%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%B1%BB%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Xiaolin">
+<meta property="og:description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第四篇。如有错误，欢迎指正。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T00:20:00.000Z">
+<meta property="article:modified_time" content="2020-09-11T06:40:32.422Z">
+<meta property="article:author" content="Xiaolin">
+<meta property="article:tag" content="51单片机">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(4)%20--%20%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%B1%BB%E6%8C%87%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>51单片机汇编语言指令 (4) -- 算术运算类指令 | Xiaolin</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaolin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>目录</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(4)%20--%20%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%B1%BB%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xiaolin.jpg">
+      <meta itemprop="name" content="Xiaolin">
+      <meta itemprop="description" content="请触碰我，让我饮马山泉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaolin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          51单片机汇编语言指令 (4) -- 算术运算类指令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-07 08:20:00" itemprop="dateCreated datePublished" datetime="2020-04-07T08:20:00+08:00">2020-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-11 14:40:32" itemprop="dateModified" datetime="2020-09-11T14:40:32+08:00">2020-09-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第四篇。如有错误，欢迎指正。</p>
+<a id="more"></a>
+
+<hr>
+<p>算术运算类指令共有24条， 可分为加法、 带进位加法、 带借位减法、 加1减1， 乘除及十进制调整指令共6组。 它主要完成加、减、乘、除四则运算，以及增量、 减量和二—十进制调整操作，对8位无符号数可进行直接运算；借助溢出标志，可对带符号数进行2的补码运算；借助进位标志，可进行多字节加减运算，也可以对压缩BCD码（即单字节中存放两位BCD码）进行运算。 </p>
+<hr>
+<h2 id="加法指令"><a href="#加法指令" class="headerlink" title="加法指令"></a>加法指令</h2><p>加法指令共有如下4条指令， 操作数助记符为 <strong>ADD</strong>。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ADD A, #data	; (A) ← (A) + #data   </span><br><span class="line">ADD A, direct   ; (A) ← (A) + (direct) </span><br><span class="line">ADD A, @Ri     	; (A) ← (A) + ((Ri))    </span><br><span class="line">ADD A, Rn       ; (A) ← (A) + (Rn)  </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>1）对标志位的影响：<br>CY：若 D7 有进位，则置1；<br>AC：若 D3 有进位，则置1；<br>OV：若 D7 有进位但 D6 无进位，或 D7 无进位但 D6 有进位，则置1。</p>
+<p>2）溢出规律：<br>无符号数：若 CY = 1， 则溢出；<br>有符号数：若 OV = 1，则溢出。</p>
+</blockquote>
+<ul>
+<li>注意：</li>
+</ul>
+<p>无论是哪一条加法指令，参加运算的都是两个8位二进制数。对用户来说，这些8位数可当作无符号数（0～255），也可以当作带符号数（-128～+127），即补码数。计算机在作加法运算时，总按以下规定进行：</p>
+<p>（1）在求和时，总是把操作数直接相加，而无须任何变换；</p>
+<p>（2）在确定相加后进位标志 CY 的值时，总是把两个操作数作为无符号数直接相加而得出进位CY值。若为无符号数相加CY代表十进制数256，但若是两个带符号数相加，CY没有意义。</p>
+<p>（3） 在确定相加后溢出标志OV的值时，计算机总是把操作数当作带符号数来对待。在作加法运算时，一个正数和一个负数相加是不可能产生溢出的，只有两个同符号数相加才有可能产生溢出，表示运算结果出错。 </p>
+<hr>
+<h2 id="带进位加法指令"><a href="#带进位加法指令" class="headerlink" title="带进位加法指令"></a>带进位加法指令</h2><p>带进位加法指令主要用于多字节加法的多字节求和，以考虑低字节求和向高字节的进位。带进位加法指令有如下4条指令， 其助记符为 <strong>ADDC</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ADDC A, #data		; (A) ← (A) + (CY) + #data     </span><br><span class="line">ADDC A, direct		; (A) ← (A) + (CY) + (direct)</span><br><span class="line">ADDC A, @Ri     	; (A) ← (A) + (CY) + ((Ri)) </span><br><span class="line">ADDC A, Rn      	; (A) ← (A) + (CY) + (Rn)</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="带借位减法指令"><a href="#带借位减法指令" class="headerlink" title="带借位减法指令"></a>带借位减法指令</h2><p>带借位减法指令有如下4条指令， 其助记符为 <strong>SUBB</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SUBB A, #data  	; (A) ← (A) － (CY) － #data </span><br><span class="line">SUBB A, direct  ; (A) ← (A) － (CY) － (direct) </span><br><span class="line">SUBB A, @Ri    	; (A) ← (A) － (CY) － ((Ri))    </span><br><span class="line">SUBB A, Rn      ; (A) ← (A) － (CY) － (Rn)      </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>两个数相减时：</p>
+<p>若D7位有借位，则置CY为1，否则CY清0；</p>
+<p>若D3位有借位，则辅助进位AC=1，否则AC清0；</p>
+<p>若D6、D7位不同时借位，则置OV=1，否则清OV；</p>
+<p>若A的结果有奇数个1，则置奇偶效验位P为1，否则清0。</p>
+</blockquote>
+<p><strong>注意</strong>：由于减法指令只有带借位减法指令， 因此， 若要进行不带借位位的减法操作， 需先清借位位， 即置CY=0。</p>
+<hr>
+<h2 id="十进制调整指令"><a href="#十进制调整指令" class="headerlink" title="十进制调整指令"></a>十进制调整指令</h2><p>十进制调整指令是一条对二—十进制的加法进行调整的指令。 两个压缩BCD码按二进制相加， 必须经过本条指令调整后才能得到正确的压缩BCD码和数， 实现十进制的加法运算。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DA A	; 若(A)3～0 &gt; 9 或 (AC)&#x3D;1, 则(A)3～0 ← (A)3～0 + 06H </span><br><span class="line">		; 若(A)7～4 &gt; 9 或 (CY)&#x3D;1, 则(A)7～4 ← (A)7～4 + 06H </span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：由于指令要利用AC、CY等标志才能起到正确的调整作用， 因此它必须跟在加法ADD、ADDC指令后面方可使用。</p>
+<hr>
+<h2 id="加1、减1指令"><a href="#加1、减1指令" class="headerlink" title="加1、减1指令"></a>加1、减1指令</h2><ul>
+<li>加1指令共有如下5条指令， 助记符为<strong>INC</strong>。 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INC A			; (A) ← (A) + 1                 </span><br><span class="line">INC direct    	; (direct) ← (direct) + 1   </span><br><span class="line">INC @Ri     	; ((Ri)) ← ((Ri)) + 1          </span><br><span class="line">INC Rn     		; (Rn) ← (Rn) + 1         </span><br><span class="line">INC DPTR  		; (DPTR) ← (DPTR) + 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>减1指令有如下4条指令， 助记符为<strong>DEC</strong>。 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DEC A 			; (A) ← (A) － 1</span><br><span class="line">DEC direct 		; (direct) ← (direct) － 1 </span><br><span class="line">DEC @Ri  		; ((Ri)) ← ((Ri)) － 1</span><br><span class="line">DEC Rn   		; (Rn) ← (Rn) － 1    </span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="乘、-除法指令"><a href="#乘、-除法指令" class="headerlink" title="乘、 除法指令"></a>乘、 除法指令</h2><p>乘、 除法指令为单字节4周期指令， 在指令执行周期中是最长的两条指令。     </p>
+<ul>
+<li>乘法指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MUL A B		; (B) ← ((A)×(B))15～8, (A) ← ((A)×(B))7～0 </span><br><span class="line">			; (CY) ← 0 </span><br></pre></td></tr></table></figure>
+
+<p>乘法指令的功能是把累加器A和寄存器B中的两个8位无符号数相乘， 将乘积16位数中的低8位存放在A中， 高8位存放在B中。 </p>
+<p><strong>注意</strong>：若乘积大于FFH（255）， 则溢出标志OV置1，否则OV清0。 乘法指令执行后进位标志CY总是清零， 即CY=0。 其次，乘法指令本身只能进行两个8位数的乘法运算， 要进行多字节乘法还需编写相应的程序。</p>
+<ul>
+<li>除法指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DIV A B		; (A) ← (A)÷(B)之商，(B) ← (A)÷(B)之余数</span><br><span class="line">			; (CY) ← 0, (OV) ← 0  </span><br></pre></td></tr></table></figure>
+
+<p>除法指令的功能是把累加器A中的8位无符号整数除以寄存器B中的8位无符号整数， 所得商存于累加器A中， 余数存于寄存器B中， 进位标志CY和溢出标志OV均被清零。</p>
+<p><strong>注意</strong>：若除数B中的内容为0时， 除法运算没有意义， 结果为不定值， 此时溢出标志OV被置为1， 即OV=1，而CY仍为0。 </p>
+<hr>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>未完待续。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/51%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 51单片机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(3)%20--%20%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4/" rel="prev" title="51单片机汇编语言指令 (3) -- 数据传送指令">
+      <i class="fa fa-chevron-left"></i> 51单片机汇编语言指令 (3) -- 数据传送指令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/14/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(5)%20--%20%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E5%8F%8A%E7%A7%BB%E4%BD%8D%E7%B1%BB%E6%8C%87%E4%BB%A4/" rel="next" title="51单片机汇编语言指令 (5) -- 逻辑运算及移位类指令">
+      51单片机汇编语言指令 (5) -- 逻辑运算及移位类指令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E6%8C%87%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">加法指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%A6%E8%BF%9B%E4%BD%8D%E5%8A%A0%E6%B3%95%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">带进位加法指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%A6%E5%80%9F%E4%BD%8D%E5%87%8F%E6%B3%95%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">带借位减法指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E8%BF%9B%E5%88%B6%E8%B0%83%E6%95%B4%E6%8C%87%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">十进制调整指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A01%E3%80%81%E5%87%8F1%E6%8C%87%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">加1、减1指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%98%E3%80%81-%E9%99%A4%E6%B3%95%E6%8C%87%E4%BB%A4"><span class="nav-number">6.</span> <span class="nav-text">乘、 除法指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">7.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaolin"
+      src="/images/xiaolin.jpg">
+  <p class="site-author-name" itemprop="name">Xiaolin</p>
+  <div class="site-description" itemprop="description">请触碰我，让我饮马山泉</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaolinlo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaolinlo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaolin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pagelogo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="澳大利亚的华裔数学家陶哲轩曾在网上发帖提到一个称为“红眼睛蓝眼睛问题“的问题，引起广泛讨论。对于这个问题，网上有诸多答案，但这些答案要么是别处复制来的，要么解读都不够详细和严谨。因此本文将根据自身的理解，综合网上现有的一些答案，对该问题给出我自己的解答。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红眼睛与蓝眼睛问题">
+<meta property="og:url" content="http://example.com/2020/03/14/%E9%80%BB%E8%BE%91/%E7%BA%A2%E7%9C%BC%E7%9D%9B%E4%B8%8E%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Xiaolin">
+<meta property="og:description" content="澳大利亚的华裔数学家陶哲轩曾在网上发帖提到一个称为“红眼睛蓝眼睛问题“的问题，引起广泛讨论。对于这个问题，网上有诸多答案，但这些答案要么是别处复制来的，要么解读都不够详细和严谨。因此本文将根据自身的理解，综合网上现有的一些答案，对该问题给出我自己的解答。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-11T05:29:59.101Z">
+<meta property="article:author" content="Xiaolin">
+<meta property="article:tag" content="逻辑">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/03/14/%E9%80%BB%E8%BE%91/%E7%BA%A2%E7%9C%BC%E7%9D%9B%E4%B8%8E%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>红眼睛与蓝眼睛问题 | Xiaolin</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaolin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>目录</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/03/14/%E9%80%BB%E8%BE%91/%E7%BA%A2%E7%9C%BC%E7%9D%9B%E4%B8%8E%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xiaolin.jpg">
+      <meta itemprop="name" content="Xiaolin">
+      <meta itemprop="description" content="请触碰我，让我饮马山泉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaolin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          红眼睛与蓝眼睛问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-14T00:00:00+08:00">2020-03-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-11 13:29:59" itemprop="dateModified" datetime="2020-09-11T13:29:59+08:00">2020-09-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>澳大利亚的华裔数学家陶哲轩曾在网上发帖提到一个称为<strong>“红眼睛蓝眼睛问题“</strong>的问题，引起广泛讨论。对于这个问题，网上有诸多答案，但这些答案要么是别处复制来的，要么解读都不够详细和严谨。因此本文将根据自身的理解，综合网上现有的一些答案，对该问题给出我自己的解答。</p>
+<a id="more"></a>
+
+
+
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>“红眼睛蓝眼睛问题”描述的大概是这样一个问题：</p>
+<p>有一座小岛，岛上有<strong>100位居民</strong>，其中有<strong>5位是红色眼睛</strong>，<strong>95位是蓝色眼睛</strong>。</p>
+<p>岛上有法令规定：<strong>禁止岛民从任何途径得出他们眼睛颜色的信息</strong>（包括照镜子和其他利用可反光物体的方法），以及<strong>禁止讨论这个话题</strong>。因此，<strong>每一位岛民只知道其他岛民的眼睛颜色，而没办法得知自己的眼睛颜色</strong>。</p>
+<p>同时，法令也规定：<strong>一旦岛民通过某种途径，确认了自己眼睛的颜色，他（她）就必须在第二天正午，当着全体岛民的面前自杀</strong>。</p>
+<p>已知岛民都拥有非常强的逻辑思维能力，并且非常自觉地遵守法令，同时他们互相知道大家都是这样，也都知道大家都知道大家都是这样。</p>
+<p>有一天，一位拥有红色眼睛的旅行者来到了这座小岛，并且得到了岛民们的热情款待。离岛当天晚上，全体岛民们设宴为他饯行，席间他无意地感叹道：“能在世界的这个小角落碰上和我一样拥有红色眼睛的人，是多么的幸运啊！“话语刚落，全场愕然，因为岛上是禁止讨论眼睛颜色的。旅行者也马上意识到自己的错误，当晚便匆匆离开了小岛。</p>
+<p>离岛后，旅行者心想：岛上的居民本来便知道岛上有红眼睛的存在，因此自己的话并不会起什么作用。想到这，心里便不再那么感到愧疚。</p>
+<p>然而，就在旅行者离岛后的第五天正午，岛上的5位红眼睛岛民集体自杀了…… 这是为什么呢？</p>
+<p>额外说明：由于法令的规定，岛民最多只知道了岛上的人口数，而并不知道岛上岛民的眼睛都有哪几种颜色，以及每种颜色对应的确切数量（即问题的第一句话所陈述的客观事实对于岛民来说是未知的）。</p>
+<hr>
+<h1 id="问题解答"><a href="#问题解答" class="headerlink" title="问题解答"></a>问题解答</h1><p>对于这个问题，可以从最简单的情况逐步推导。</p>
+<ul>
+<li>假设岛上只有1位红眼睛，99位蓝眼睛</li>
+</ul>
+<p>对于这位红眼睛的岛民，他平时看到的肯定都是蓝色的眼睛。在这种假设下，全岛只有他一人不知道岛上有红眼睛（他自己）的存在。因此，当旅行者说岛上有红眼睛的时候，他便会意识到，这个红眼睛的人只能是自己，因此他会在隔天正午自杀。</p>
+<ul>
+<li>假设岛上有2位红眼睛，98位蓝眼睛</li>
+</ul>
+<p>为了方便表述，对于这2位红眼睛的岛民，姑且称之为“红一”和“红二”。</p>
+<p>先从红一的角度看，他平时会看到1位红眼睛，98位蓝眼睛。在旅行者当晚说完后，他会想到：如果岛上只有1位红眼睛，那一定是平时他看到的那位，那他一定会在明天自杀（即前文假设一）；如果岛上有2位红眼睛，那另一位肯定只能是自己，但这种情况目前无法确认，只能明天等着看那位红眼睛的有没有自杀，如果有，那自己便不是红眼睛（即只有1位红眼睛），如果没有，那就说明那位红眼睛看到另一个红眼睛的存在，也在等他自杀，而另外的这个人，只能是自己，那么自己要在后天即旅行者离开后第二天自杀。</p>
+<p>从红二的角度看，他想的肯定也会和红一是一样的。因此两个人第一天都在等对方自杀，所以第一天没有人自杀，而要到第二天，两个人才都自杀了。</p>
+<ul>
+<li>假设岛上有3位红眼睛，97位蓝眼睛</li>
+</ul>
+<p>方便表述，同样称这3位红眼睛分别为“红一”，“红二”，“红三”。</p>
+<p>与前文假设二类似，先从红一的角度看，他平时会看到2位红眼睛和97位蓝眼睛。在旅行者当晚说完后，他会想到：如果岛上只有平时看到的那2位是红眼睛，那他们一定会在旅行者离开后的第二天自杀（即前文假设二）；如果岛上有3位红眼睛，那第3人只能是自己，但这种情况目前无法确定，只能在旅行者离开后第二天等着看平时看到的2位红眼睛有没有自杀，如果自杀了，自己便不是红眼睛（即只有那2位是红眼睛），如果没有，说明他们也都看到了岛上有2位红眼睛，也会在第二天等着有没有人自杀，这样自己便是红眼睛了，要在第三天自杀。</p>
+<p>从红二，红三角度看，他们也都是这么想。因此，旅行者离开后的第一天，第二天都没有人自杀，因为第二天他们都在等着有没有两个人自杀。结果当然是到了第三天，他们三人都自杀了。</p>
+<p>……</p>
+<p>以此类推，便能够得出，原题的结局为什么是岛上5位红眼睛的岛民在旅行者离开后的第五天都自杀了。</p>
+<hr>
+<h1 id="背后含义"><a href="#背后含义" class="headerlink" title="背后含义"></a>背后含义</h1><p>旅行者的一句话为什么能有如此大的杀伤力？关于这一点，有人把它解释为这是由于<strong>“共有知识”转变为“公共知识”</strong>所导致的。但对于这种解释我觉得不太合理。</p>
+<blockquote>
+<p>所谓<strong>“共有知识”</strong>，意思就是<strong>指在一个群体中的每个人都知道这个事实，但每个人并不知道该群体的其他人是否也都知道这个事实</strong>。而所谓<strong>“公共知识”</strong>，意思就是<strong>指在一个群体中的每个人不仅知道这个事实，而且每个人知道该群体的其他人也都知道这个事实</strong>。</p>
+</blockquote>
+<p>在这种解释中，是这样认为的：在旅行者说出那句话之前，对于岛上有红眼睛这件事，是每个人都是知道的，但每个人并不知道别人是否和自己一样也知道这件事，也即这件事在岛民中，是属于<strong>“共有知识”</strong>；而当旅行者说完那句话之后，岛上有红眼这件事变成不仅人人都知道，而且每个人都知道其他人都知道的事，因此这件事在岛民中变成了<strong>“公共知识”</strong>。从而带来了难以想象的效应。</p>
+<p>对于这种解释，漏洞就在于，题目中已经提到了岛民人人都有非常好的逻辑思维能力，也都知道其他人都是这样。因此在有5位红眼睛岛民的情况下，岛上有红眼睛这件事，对于高度逻辑的岛民来说，自然知道这是每个人都知道的，并且知道其他人都知道，即这件事在岛上一开始就是属于“公共知识”。至于为什么能有如此大的杀伤力，我觉得这是因为题目设置的巧妙罢了。</p>
+<p>不过既然提到了<strong>“共有知识”和“公共知识”</strong>，这里不妨谈一谈在现实中的例子。事实上，现实中有很多例子。比如在情感中：</p>
+<blockquote>
+<p>假设现在有一个男生叫张三和一个女生叫李四，他们互相暗恋对方。张三知道自己喜欢李四，而且从李四的行为中他也知道李四喜欢自己，反过来李四也是如此。但张三不知道自己喜欢李四，李四喜欢他这件事李四知不知道，同样李四也不知道其实他们之间是互相喜欢的这件事张三知不知道，所以这时候就是“共有知识”。如何转变为公共知识呢？那就是表白，让对方知道，其实他们都是互相喜欢对方的。所以这就是其背后的内涵。</p>
+</blockquote>
+<p>除了以上的例子，童话故事《皇帝的新装》其实也是共有知识和公共知识。小男孩没说之前，是共有知识，小男孩说出来后，大家都知道其他人都知道了，就变成了公共知识。在博弈论中，有一个称为<strong>“脏脸博弈”</strong>的例子，说的也是与“红眼睛和蓝眼睛问题”是一样的问题。</p>
+<hr>
+<h1 id="新的问题"><a href="#新的问题" class="headerlink" title="新的问题"></a>新的问题</h1><p>回到原问题，或许还可以对结局提出两个新的问题：</p>
+<ul>
+<li>在5位红眼睛的人都自杀后，剩下的蓝眼睛的人会不会全部自杀？</li>
+<li>旅行者当晚说完那句话后，是否有补救的措施，防止岛民的自杀？</li>
+</ul>
+<p>对于这两个新的问题，这里暂且不作解答。</p>
+<hr>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av27732823">李永乐老师官方《你真的看懂《皇帝的新装》了吗？心知肚明和说出来有啥区别？李永乐老师讲“呐喊”的力量》</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%80%BB%E8%BE%91/" rel="tag"># 逻辑</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/12/C%E8%AF%AD%E8%A8%80/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/" rel="prev" title="《C Primer Plus》浮点数舍入错误解释">
+      <i class="fa fa-chevron-left"></i> 《C Primer Plus》浮点数舍入错误解释
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(1)%20--%20%E5%88%9D%E8%AF%86%E6%8C%87%E4%BB%A4/" rel="next" title="51单片机汇编语言指令 (1) -- 初识指令">
+      51单片机汇编语言指令 (1) -- 初识指令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94"><span class="nav-number">2.</span> <span class="nav-text">问题解答</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E5%90%8E%E5%90%AB%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">背后含义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">新的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaolin"
+      src="/images/xiaolin.jpg">
+  <p class="site-author-name" itemprop="name">Xiaolin</p>
+  <div class="site-description" itemprop="description">请触碰我，让我饮马山泉</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaolinlo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaolinlo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaolin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

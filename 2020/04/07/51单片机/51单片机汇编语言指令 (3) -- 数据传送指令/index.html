@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pagelogo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pagelogo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第三篇。如有错误，欢迎指正。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="51单片机汇编语言指令 (3) -- 数据传送指令">
+<meta property="og:url" content="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(3)%20--%20%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Xiaolin">
+<meta property="og:description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第三篇。如有错误，欢迎指正。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T00:18:55.000Z">
+<meta property="article:modified_time" content="2020-09-11T06:30:38.576Z">
+<meta property="article:author" content="Xiaolin">
+<meta property="article:tag" content="51单片机">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(3)%20--%20%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>51单片机汇编语言指令 (3) -- 数据传送指令 | Xiaolin</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaolin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>目录</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(3)%20--%20%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xiaolin.jpg">
+      <meta itemprop="name" content="Xiaolin">
+      <meta itemprop="description" content="请触碰我，让我饮马山泉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaolin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          51单片机汇编语言指令 (3) -- 数据传送指令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-07 08:18:55" itemprop="dateCreated datePublished" datetime="2020-04-07T08:18:55+08:00">2020-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-11 14:30:38" itemprop="dateModified" datetime="2020-09-11T14:30:38+08:00">2020-09-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第三篇。如有错误，欢迎指正。</p>
+<a id="more"></a>
+
+<hr>
+<p>MCS-51单片指令系统中，数据传送指令共29条。</p>
+<p>数据传送指令是 MCS-51单片机指令系统中数目最多、使用最频繁的指令。除了用 POP 或 MOV操作向 PSW 传送数据的指令外，其他传送指令均不影响标志位。</p>
+<p>“传送”操作的功能是将源地址单元的内容传送到目的地址单元中去，而源地址单元的内容不变。</p>
+<hr>
+<h2 id="内部数据传送指令"><a href="#内部数据传送指令" class="headerlink" title="内部数据传送指令"></a>内部数据传送指令</h2><p>内部数据传送指令是指数据在内部 RAM 单元之间传送。内部数据传送指令的助记符为 <strong>MOV</strong>，其汇编语言指令格式为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV [目的地址] [源地址]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>以累加器A为目的的传送指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MOV A, Rn		; (A) ← (Rn)</span><br><span class="line">MOV A, direct	; (A) ← (direct) </span><br><span class="line">MOV A, @Ri		; (A) ← ((Ri))</span><br><span class="line">MOV A, #data	; (A) ← #data</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>以直接地址为目的的传送指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOV direct, A		 ; (direct) ← (A)</span><br><span class="line">MOV direct, Rn		 ; (direct) ← (Rn)</span><br><span class="line">MOV direct1, direct2 ; (direct1) ← (direct2)</span><br><span class="line">MOV direct, @Ri		 ; (directl) ← ((Ri))</span><br><span class="line">MOV direct, #data	 ; (direct1) ← #data </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>以通用寄存器Rn为目的的传送指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV Rn, A		; (Rn) ← (A)</span><br><span class="line">MOV Rn, direct  ; (Rn) ← (direct)</span><br><span class="line">MOV Rn, #data	; (Rn) ← #data</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：内部工作寄存器之间不能直接传送数据。 例如不存在 MOV R1, R2 这样的指令。</strong></p>
+<ul>
+<li>以寄存器间接地址为目的的传送指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV @Ri, A		; ((Ri)) ← (A)</span><br><span class="line">MOV @Ri, direct ; ((Ri)) ← (direct)</span><br><span class="line">MOV @Ri, #data 	; ((Ri)) ← #data </span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="16位数据传送指令"><a href="#16位数据传送指令" class="headerlink" title="16位数据传送指令"></a>16位数据传送指令</h2><p>MSC-51单片机指令系统中仅此一条传送16位数据的指令，功能是将16位数据送入寄存器 DPTR 中，其中数据的高8位送入 DPH 中，低8位送入 DPL 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOV DPTR, #data16	; (DPTR) ← #data16</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="片外数据存储器传送指令"><a href="#片外数据存储器传送指令" class="headerlink" title="片外数据存储器传送指令"></a>片外数据存储器传送指令</h2><p>当把一个数据送到单片机外部扩展 RAM 的某个单元或外部扩展 I/0 口某个端口，或者从该单元、端口将数据取回到单片机内部的时候，就要用到这种指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* 片外RAM 写指令 *&#x2F;</span><br><span class="line">MOVX @Ri, A		; ((Ri))片外 ← (A)</span><br><span class="line">MOVX @DPTR, A	; ((DPTR))片外 ← (A)</span><br><span class="line">&#x2F;* 片外RAM 读指令 *&#x2F;</span><br><span class="line">MOVX A, @Ri		; (A) ← ((Ri))片外</span><br><span class="line">MOVX A, @DPTR	; (A) ← ((DPTR))片外</span><br></pre></td></tr></table></figure>
+
+<p>注意：MCS—51单片机CPU对片外扩展的数据存储器RAM或I/O口进行数据传送, <strong>必须采用寄存器间接寻址的方法，通过累加器A来完成</strong>。</p>
+<hr>
+<h2 id="查表指令（ROM数据访问指令）"><a href="#查表指令（ROM数据访问指令）" class="headerlink" title="查表指令（ROM数据访问指令）"></a>查表指令（ROM数据访问指令）</h2><p>程序存储器向累加器A传送数据指令。它采用变址寻址方式，把程序存储器(ROM或EPROM)中存放的表格数据读出，传送到累加器A。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVC A, @A+DPTR ; (A) ← ((A)+(DPTR))ROM</span><br><span class="line">MOVC A, @A+PC	; (PC) ← (PC)+1, (A)←((A)+(PC))ROM</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="数据交换指令"><a href="#数据交换指令" class="headerlink" title="数据交换指令"></a>数据交换指令</h2><p>数据交换指令是在内部RAM的某一个单元和累加器A之间进行的，并且累加器 A 总是作为目标操<br>作数。数据交换指令分为两种：<strong>整字节交换指令</strong>和<strong>半字节交换指令</strong>。</p>
+<ul>
+<li>整字节交换指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">XCH A, Rn		; (A) &lt;&#x3D;&gt; (Rn)</span><br><span class="line">XCH A, direct	; (A) &lt;&#x3D;&gt; (direct)</span><br><span class="line">XCH A, @Ri		; (A) &lt;&#x3D;&gt; ((Ri))</span><br></pre></td></tr></table></figure>
+
+<p>这组指令的功能是将累加器 A 的内容与源操作数（Rn、direct 或 @Ri ）所指定单元相互交换内容。</p>
+<ul>
+<li>半字节交换指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XCHD A, @Ri		; (A)3~0 &lt;&#x3D;&gt; ((Ri))3~0</span><br><span class="line">SWAP A			; (A)3~0 &lt;&#x3D;&gt; (A)7~4</span><br></pre></td></tr></table></figure>
+
+<p>第一条指令将 Ri 间接寻址的单元内容的低4位与累加器 A 内容的低4位互换，高4位内容不变，不影响标志位。</p>
+<p>第二条指令将累加器 A 的高4位与低4位内容互换，不影响标志位。</p>
+<hr>
+<h2 id="栈操作指令"><a href="#栈操作指令" class="headerlink" title="栈操作指令"></a>栈操作指令</h2><p>片内RAM中有一个先进后出的堆栈操作缓冲区域，主要用于保护和恢复CPU的工作现场，也可实现内部RAM单元之间的数据传送。</p>
+<p><strong>注意：指令的操作数是direct直接地址，不能是间接地址、通用寄存器或其他</strong></p>
+<ul>
+<li>入栈指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUSH direct	; (SP) ← (SP) + 1, ((SP)) ← (direct)</span><br></pre></td></tr></table></figure>
+
+<p>先将堆栈指针寄存器的内容加1，指向堆栈顶的一个单元中，然后将指令指定的直接寻址单元内容传送到这个单元中。</p>
+<ul>
+<li>出栈指令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POP direct	; (direct) ← ((SP)), (SP) ← (SP) - 1</span><br></pre></td></tr></table></figure>
+
+<p>出栈指令是将当前堆栈指针寄存器SP所指示单元内容传送到该指令指定的直接寻址单元中去，然后SP内容减1指向新栈顶。</p>
+<hr>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>未完待续。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/51%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 51单片机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(2)%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/" rel="prev" title="51单片机汇编语言指令 (2) -- 寻址方式">
+      <i class="fa fa-chevron-left"></i> 51单片机汇编语言指令 (2) -- 寻址方式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(4)%20--%20%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%B1%BB%E6%8C%87%E4%BB%A4/" rel="next" title="51单片机汇编语言指令 (4) -- 算术运算类指令">
+      51单片机汇编语言指令 (4) -- 算术运算类指令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">内部数据传送指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16%E4%BD%8D%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">16位数据传送指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%87%E5%A4%96%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%99%A8%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">片外数据存储器传送指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%A1%A8%E6%8C%87%E4%BB%A4%EF%BC%88ROM%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E6%8C%87%E4%BB%A4%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">查表指令（ROM数据访问指令）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%8C%87%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">数据交换指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="nav-number">6.</span> <span class="nav-text">栈操作指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">7.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaolin"
+      src="/images/xiaolin.jpg">
+  <p class="site-author-name" itemprop="name">Xiaolin</p>
+  <div class="site-description" itemprop="description">请触碰我，让我饮马山泉</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaolinlo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaolinlo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaolin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

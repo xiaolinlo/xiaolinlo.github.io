@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。 寻址方式寄存器寻址寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。 可指定的寄存器：R0~R7、A、B、DPTR 1例子：MOV A, R1	; 将 R1 中的值装入 A    直接寻址直接寻址是指令直接给出操作数所在单元的地址的寻址方式。指令中操作数部分给出直接地址，用 direct 表示。 可指定的">
+  <meta name="description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="51单片机汇编语言指令 —— 寻址方式">
-<meta property="og:url" content="http://example.com/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:title" content="51单片机汇编语言指令 (2) -- 寻址方式">
+<meta property="og:url" content="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(2)%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Xiaolin">
-<meta property="og:description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。 寻址方式寄存器寻址寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。 可指定的寄存器：R0~R7、A、B、DPTR 1例子：MOV A, R1	; 将 R1 中的值装入 A    直接寻址直接寻址是指令直接给出操作数所在单元的地址的寻址方式。指令中操作数部分给出直接地址，用 direct 表示。 可指定的">
+<meta property="og:description" content="本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-09-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-09-11T04:25:38.458Z">
+<meta property="article:published_time" content="2020-04-07T00:18:08.000Z">
+<meta property="article:modified_time" content="2020-09-11T05:46:15.190Z">
 <meta property="article:author" content="Xiaolin">
 <meta property="article:tag" content="51单片机">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">
+<link rel="canonical" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(2)%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>51单片机汇编语言指令 —— 寻址方式 | Xiaolin</title>
+  <title>51单片机汇编语言指令 (2) -- 寻址方式 | Xiaolin</title>
   
 
 
@@ -161,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(2)%20--%20%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/xiaolin.jpg">
@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          51单片机汇编语言指令 —— 寻址方式
+          51单片机汇编语言指令 (2) -- 寻址方式
         </h1>
 
         <div class="post-meta">
@@ -183,10 +183,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-11 00:00:00 / 修改时间：12:25:38" itemprop="dateCreated datePublished" datetime="2020-09-11T00:00:00+08:00">2020-09-11</time>
+              <time title="创建时间：2020-04-07 08:18:08" itemprop="dateCreated datePublished" datetime="2020-04-07T08:18:08+08:00">2020-04-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-11 13:46:15" itemprop="dateModified" datetime="2020-09-11T13:46:15+08:00">2020-09-11</time>
+              </span>
 
           
 
@@ -200,34 +206,42 @@
 
       
         <p>本文是对51单片机汇编语言指令的整理和记录。此文为该系列的第二篇。如有错误，欢迎指正。</p>
-<h1 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h1><h2 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h2><p>寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h2><p>寄存器寻址是指令中指定寄存器的内容作为操作数的寻址方式。</p>
 <p>可指定的寄存器：R0~R7、A、B、DPTR</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV A, R1	; 将 R1 中的值装入 A</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h2><p>直接寻址是指令直接给出操作数所在单元的地址的寻址方式。指令中操作数部分给出直接地址，用 direct 表示。</p>
 <p>可指定的地址：内部RAM、SFR、XXH </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV A, 3AH	; 将3AH地址处的值装入 A</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h2><p>指令操作数的地址事先存放在某个寄存器中，由该寄存器的内容指定操作数地址的寻址方式，称为寄存器间接寻址，“@” 为间接寻址指示符。</p>
 <p>可用作间接寻址的寄存器：R0、R1、DPTR</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV A, @R1	; 将 R1 寄存器中存放的数据作为地址，将其所指向的数据装入 A</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="立即数寻址"><a href="#立即数寻址" class="headerlink" title="立即数寻址"></a>立即数寻址</h2><p>立即数寻址是由指令直接给出操作数的寻址方式。“#” 为立即数的标识符。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV A, #30H	; 将数值30H装入 A 中</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="变址寻址"><a href="#变址寻址" class="headerlink" title="变址寻址"></a>变址寻址</h2><p>变址间接寻址是将指令中基地址（基址寄存器）和偏移量地址（变址寄存器）的内容相加形成真正的操作数地址。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOVC A, @A+DPTR	; (A)←((A)+(DPTR))</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h2><p>以当前的 PC 值加上指令中给出的相对偏移量 rel 而形成转移目的地址的寻址方式。</p>
 <blockquote>
 <p><strong>注意：</strong></p>
@@ -244,13 +258,16 @@
 
 
 
+<hr>
 <h2 id="位寻址"><a href="#位寻址" class="headerlink" title="位寻址"></a>位寻址</h2><p>位寻址适用于可以进行单独位操作的指令，指令中直接给出位地址寻找位操作数。参与操作的数据是1 bit而不是1B。位地址用 bit 表示，以区别字节地址 direct。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例子：MOV C, 37H	; 将位地址为 37H 的值装入 PSW 寄存器的位Cy中</span><br></pre></td></tr></table></figure>
 
 
 
+<hr>
 <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p><strong>在 MCS-51 系列单片机的存储空间中，指令究竟对哪个存储器空间进行操作是由指令操作码和寻址方式确定的。</strong></p>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>未完待续。</p>
+<hr>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>未完待续。</p>
 
     </div>
 
@@ -269,12 +286,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/09/30/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E3%80%8B/" rel="prev" title="写在前面 《我的第一篇博客》">
-      <i class="fa fa-chevron-left"></i> 写在前面 《我的第一篇博客》
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(1)%20--%20%E5%88%9D%E8%AF%86%E6%8C%87%E4%BB%A4/" rel="prev" title="51单片机汇编语言指令 (1) -- 初识指令">
+      <i class="fa fa-chevron-left"></i> 51单片机汇编语言指令 (1) -- 初识指令
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/09/11/%E3%80%8AC%20Primer%20Plus%E3%80%8B%E6%B5%AE%E7%82%B9%E6%95%B0%E8%88%8D%E5%85%A5%E9%94%99%E8%AF%AF%E8%A7%A3%E9%87%8A/" rel="next" title="《C Primer Plus》浮点数舍入错误解释">
-      《C Primer Plus》浮点数舍入错误解释 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/07/51%E5%8D%95%E7%89%87%E6%9C%BA/51%E5%8D%95%E7%89%87%E6%9C%BA%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%20(3)%20--%20%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4/" rel="next" title="51单片机汇编语言指令 (3) -- 数据传送指令">
+      51单片机汇编语言指令 (3) -- 数据传送指令 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -334,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">1.2.</span> <span class="nav-text">直接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">1.3.</span> <span class="nav-text">寄存器间接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E6%95%B0%E5%AF%BB%E5%9D%80"><span class="nav-number">1.4.</span> <span class="nav-text">立即数寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.</span> <span class="nav-text">变址寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="nav-number">1.6.</span> <span class="nav-text">相对寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%AF%BB%E5%9D%80"><span class="nav-number">1.7.</span> <span class="nav-text">位寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.8.</span> <span class="nav-text">综述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">寄存器寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">2.</span> <span class="nav-text">直接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">3.</span> <span class="nav-text">寄存器间接寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E6%95%B0%E5%AF%BB%E5%9D%80"><span class="nav-number">4.</span> <span class="nav-text">立即数寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="nav-number">5.</span> <span class="nav-text">变址寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="nav-number">6.</span> <span class="nav-text">相对寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E5%AF%BB%E5%9D%80"><span class="nav-number">7.</span> <span class="nav-text">位寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%BC%E8%BF%B0"><span class="nav-number">8.</span> <span class="nav-text">综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">9.</span> <span class="nav-text">结束语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -350,14 +367,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
