@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文将回答若干关于 STM32 官方固件库的问题。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+  <meta name="description" content="本文将回答若干关于 STM32 官方固件库的问题。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
 <meta property="og:type" content="article">
 <meta property="og:title" content="认识 STM32 官方固件库">
 <meta property="og:url" content="http://example.com/2020/05/04/STM32/%E8%AE%A4%E8%AF%86%20STM32%20%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E5%BA%93/index.html">
 <meta property="og:site_name" content="Xiaolin">
-<meta property="og:description" content="本文将回答若干关于 STM32 官方固件库的问题。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+<meta property="og:description" content="本文将回答若干关于 STM32 官方固件库的问题。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-04T06:05:00.000Z">
-<meta property="article:modified_time" content="2020-09-11T07:20:33.126Z">
+<meta property="article:modified_time" content="2020-09-22T11:15:16.371Z">
 <meta property="article:author" content="Xiaolin">
 <meta property="article:tag" content="STM32">
 <meta name="twitter:card" content="summary">
@@ -191,7 +191,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-11 15:20:33" itemprop="dateModified" datetime="2020-09-11T15:20:33+08:00">2020-09-11</time>
+                <time title="修改时间：2020-09-22 19:15:16" itemprop="dateModified" datetime="2020-09-22T19:15:16+08:00">2020-09-22</time>
               </span>
 
           
@@ -205,7 +205,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文将回答若干关于 STM32 官方固件库的问题。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》</p>
+        <p>本文将回答若干关于 STM32 官方固件库的问题。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》</p>
 <a id="more"></a>
 
 <hr>
@@ -215,7 +215,7 @@
 <p>当然，对于任何处理器，不管它有多么的高级，归根结底都是要对处理器的寄存器进行操作。同时固件库也不是万能的，如果想要把 STM32 学透，光学 STM32 固件库是远远不够的，对底层原理的理解更有助于对 STM32 的学习。</p>
 <h2 id="什么是-CMSIS-标准？STM32-固件库与-CMSIS-标准之间的关系是什么？"><a href="#什么是-CMSIS-标准？STM32-固件库与-CMSIS-标准之间的关系是什么？" class="headerlink" title="什么是 CMSIS 标准？STM32 固件库与 CMSIS 标准之间的关系是什么？"></a>什么是 CMSIS 标准？STM32 固件库与 CMSIS 标准之间的关系是什么？</h2><p>在了解ARM公司和芯片生产商之间的关系前提下，CMSIS 标准可以简单概括为：为了能让不同的芯片公司生产的 Cortex-M3 内核芯片能在软件上基本兼容，ARM公司和芯片生产商共同提出了一套标准 —— <strong>CMSIS 标准</strong>（Cortex Microcontroller Software Interface Standard)），翻译过来是 <strong>“ARM Cortex™ 微控制器软件接口标准”</strong>。</p>
 <p>这套标准包括了：应用程序基本结构 、对各个外设驱动文件的文件名字规范化、以及函数名字规范化等等一系列规定。而 ST 官方固件库就是根据这套标准设计的。</p>
-<h2 id="STM32-官方库包介绍"><a href="#STM32-官方库包介绍" class="headerlink" title="STM32 官方库包介绍"></a>STM32 官方库包介绍</h2><p>ST 官方提供的固件库完整包可以在官方下载得到。同时固件库是在不断完善升级的，所以会有不同的版本，这里介绍的是 V3.5 版本的固件库。</p>
+<h2 id="STM32F1-官方库包介绍"><a href="#STM32F1-官方库包介绍" class="headerlink" title="STM32F1 官方库包介绍"></a>STM32F1 官方库包介绍</h2><p>ST 官方提供的固件库完整包可以在官方下载得到。同时固件库是在不断完善升级的，所以会有不同的版本，这里介绍的是 V3.5 版本的固件库。</p>
 <h3 id="关键目录介绍："><a href="#关键目录介绍：" class="headerlink" title="关键目录介绍："></a>关键目录介绍：</h3><p>在根目录下可以看到以下的关键目录及文件：</p>
 <p><strong>1）Libraries 目录</strong></p>
 <p>Libraries 目录下面有 <strong>CMSIS</strong> 和 <strong>STM32F10x_StdPeriph_Driver</strong> 两个目录，这两个目录包含固件库核心的所有子目录和文件 。</p>
@@ -270,7 +270,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/04/STM32/STM32%20NVIC%20%E4%B8%AD%E6%96%AD%E4%BC%98%E5%85%88%E7%BA%A7%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="STM32 NVIC 中断优先级管理基础知识">
+    <a href="/2020/05/04/STM32/STM32F1%20NVIC%20%E4%B8%AD%E6%96%AD%E4%BC%98%E5%85%88%E7%BA%A7%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="STM32 NVIC 中断优先级管理基础知识">
       <i class="fa fa-chevron-left"></i> STM32 NVIC 中断优先级管理基础知识
     </a></div>
       <div class="post-nav-item">
@@ -335,7 +335,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSTM32%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E5%BA%93%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是STM32官方固件库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8STM32%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E5%BA%93%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用STM32官方固件库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CMSIS-%E6%A0%87%E5%87%86%EF%BC%9FSTM32-%E5%9B%BA%E4%BB%B6%E5%BA%93%E4%B8%8E-CMSIS-%E6%A0%87%E5%87%86%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是 CMSIS 标准？STM32 固件库与 CMSIS 标准之间的关系是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32-%E5%AE%98%E6%96%B9%E5%BA%93%E5%8C%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.4.</span> <span class="nav-text">STM32 官方库包介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">关键目录介绍：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-number">1.4.2.</span> <span class="nav-text">关键文件介绍：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E4%B8%AA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.5.</span> <span class="nav-text">8个启动文件的区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSTM32%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E5%BA%93%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是STM32官方固件库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8STM32%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E5%BA%93%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用STM32官方固件库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CMSIS-%E6%A0%87%E5%87%86%EF%BC%9FSTM32-%E5%9B%BA%E4%BB%B6%E5%BA%93%E4%B8%8E-CMSIS-%E6%A0%87%E5%87%86%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是 CMSIS 标准？STM32 固件库与 CMSIS 标准之间的关系是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32F1-%E5%AE%98%E6%96%B9%E5%BA%93%E5%8C%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.4.</span> <span class="nav-text">STM32F1 官方库包介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%9B%AE%E5%BD%95%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">关键目录介绍：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="nav-number">1.4.2.</span> <span class="nav-text">关键文件介绍：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E4%B8%AA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.5.</span> <span class="nav-text">8个启动文件的区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -351,14 +351,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -390,7 +390,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
