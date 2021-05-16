@@ -20,22 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文将简单认识 STM32 的时钟系统。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+  <meta name="description" content="本文将简单认识STM32的时钟系统。所使用的平台是STM32F1系列单片机，以下简称为STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）—库函数版本》">
 <meta property="og:type" content="article">
-<meta property="og:title" content="STM32 时钟系统基础">
-<meta property="og:url" content="http://example.com/2020/05/05/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="STM32F1时钟系统基础">
+<meta property="og:url" content="http://example.com/2020/09/11/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Xiaolin">
-<meta property="og:description" content="本文将简单认识 STM32 的时钟系统。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》">
+<meta property="og:description" content="本文将简单认识STM32的时钟系统。所使用的平台是STM32F1系列单片机，以下简称为STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）—库函数版本》">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/09/e238a36378687d64.png">
-<meta property="article:published_time" content="2020-05-05T08:00:00.000Z">
-<meta property="article:modified_time" content="2020-09-22T11:15:10.695Z">
+<meta property="article:published_time" content="2020-09-11T07:33:00.410Z">
+<meta property="article:modified_time" content="2021-05-16T02:53:15.377Z">
 <meta property="article:author" content="Xiaolin">
 <meta property="article:tag" content="STM32">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2020/09/e238a36378687d64.png">
 
-<link rel="canonical" href="http://example.com/2020/05/05/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="http://example.com/2020/09/11/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>STM32 时钟系统基础 | Xiaolin</title>
+  <title>STM32F1时钟系统基础 | Xiaolin</title>
   
 
 
@@ -163,7 +163,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/05/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/11/STM32/STM32F1%20%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/xiaolin.jpg">
@@ -176,7 +176,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          STM32 时钟系统基础
+          STM32F1时钟系统基础
         </h1>
 
         <div class="post-meta">
@@ -186,14 +186,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-05 16:00:00" itemprop="dateCreated datePublished" datetime="2020-05-05T16:00:00+08:00">2020-05-05</time>
+              <time title="创建时间：2020-09-11 15:33:00" itemprop="dateCreated datePublished" datetime="2020-09-11T15:33:00+08:00">2020-09-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-22 19:15:10" itemprop="dateModified" datetime="2020-09-22T19:15:10+08:00">2020-09-22</time>
+                <time title="修改时间：2021-05-16 10:53:15" itemprop="dateModified" datetime="2021-05-16T10:53:15+08:00">2021-05-16</time>
               </span>
 
           
@@ -207,65 +207,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文将简单认识 STM32 的时钟系统。所使用的平台是 STM32F1 系列单片机，以下简称为 STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）— 库函数版本》</p>
+        <p>本文将简单认识STM32的时钟系统。所使用的平台是STM32F1系列单片机，以下简称为STM32。参考资料来自：正点原子《STM32F1开发指南（精英版）—库函数版本》</p>
 <a id="more"></a>
 
 <hr>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="使用多个时钟源的原因"><a href="#使用多个时钟源的原因" class="headerlink" title="使用多个时钟源的原因"></a>使用多个时钟源的原因</h2><p>STM32 本身非常复杂，外设非常的多，但是并不是所有外设都需要系统时钟这么高的频率。同一个电路，时钟越快功耗越大，同时抗电磁干扰能力也会越弱，所以对于较为复杂的 MCU 一般都是采取多时钟源的方法来解决这些问题。 </p>
-<h2 id="STM32-时钟系统"><a href="#STM32-时钟系统" class="headerlink" title="STM32 时钟系统"></a>STM32 时钟系统</h2><h3 id="STM32-时钟系统结构"><a href="#STM32-时钟系统结构" class="headerlink" title="STM32 时钟系统结构"></a>STM32 时钟系统结构</h3><p><img src="https://ftp.bmp.ovh/imgs/2020/09/e238a36378687d64.png"></p>
-<p><strong>STM32 中，有五个时钟源：HSI、HSE、PLL、LSI、LSE</strong></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="使用多个时钟源的原因"><a href="#使用多个时钟源的原因" class="headerlink" title="使用多个时钟源的原因"></a>使用多个时钟源的原因</h2><p>STM32本身非常复杂，外设非常的多，但是并不是所有外设都需要系统时钟这么高的频率。同一个电路，时钟越快功耗越大，同时抗电磁干扰能力也会越弱，所以对于较为复杂的MCU一般都是采取多时钟源的方法来解决这些问题。</p>
+<h2 id="STM32F1时钟系统"><a href="#STM32F1时钟系统" class="headerlink" title="STM32F1时钟系统"></a>STM32F1时钟系统</h2><h3 id="STM32F1时钟系统结构"><a href="#STM32F1时钟系统结构" class="headerlink" title="STM32F1时钟系统结构"></a>STM32F1时钟系统结构</h3><p><img src="https://ftp.bmp.ovh/imgs/2020/09/e238a36378687d64.png"></p>
+<p><strong>STM32F1中，有五个时钟源：HSI、HSE、PLL、LSI、LSE</strong></p>
 <blockquote>
 <p>按照时钟频率划分：高速时钟源：HSI、HSE、PLL；低速时钟源：LSI、LSE。</p>
 <p>按照时钟来源划分：外部时钟源：HSE、LSE；内部时钟源：HSI、LSI。</p>
 </blockquote>
 <hr>
-<h3 id="各时钟源解析"><a href="#各时钟源解析" class="headerlink" title="各时钟源解析"></a>各时钟源解析</h3><p><strong>概述 （① ~ ⑤ 对应上图）：</strong></p>
-<p>① HSI：高速内部时钟，RC 振荡器，频率为 8MHz。</p>
-<p>② HSE：高速外部时钟，可接石英/陶瓷谐振器，或者接外部时钟源，频率范围为4MHz ~ 16MHz。</p>
-<p>③ LSI：低速内部时钟，RC 振荡器，频率为 40kHz。独立看门狗的时钟源只能是 LSI，同 时 LSI 还可以作为 RTC 的时钟源。</p>
-<p>④ LSE：低速外部时钟，接频率为 32.768kHz 的石英晶体。这个主要是 RTC 的时钟源。 </p>
-<p>⑤ PLL：锁相环倍频输出，输入源可选择为 HSI/2、HSE 或者 HSE/2。倍频可选择为 2~16 倍，输出频率最大不得超过 72MHz。</p>
-<p><strong>时钟源如何给各个外设以及系统提供时钟？（A ~ E 对应上图）</strong></p>
+<h3 id="各时钟源解析"><a href="#各时钟源解析" class="headerlink" title="各时钟源解析"></a>各时钟源解析</h3><p><strong>概述（①~⑤对应上图）：</strong></p>
+<p>①HSI：高速内部时钟，RC振荡器，频率为8MHz。</p>
+<p>②HSE：高速外部时钟，可接石英/陶瓷谐振器，或者接外部时钟源，频率范围为4MHz~16MHz。</p>
+<p>③LSI：低速内部时钟，RC振荡器，频率为40kHz。独立看门狗的时钟源只能是LSI，同时LSI还可以作为RTC的时钟源。</p>
+<p>④LSE：低速外部时钟，接频率为32.768kHz的石英晶体。这个主要是RTC的时钟源。</p>
+<p>⑤PLL：锁相环倍频输出，输入源可选择为HSI/2、HSE或者HSE/2。倍频可选择为2~16倍，输出频率最大不得超过72MHz。</p>
+<p><strong>时钟源如何给各个外设以及系统提供时钟？（A~E对应上图）</strong></p>
 <ul>
-<li><p><strong>A</strong>：MCO 是 STM32 的一个时钟输出 IO(PA8)，它可以选择一个时钟信号输出，可以选择为 PLL 输出的 2 分频、HSI、HSE、或者系统时钟。这个时钟可以用来给外部其他系统提供时钟源。 </p>
+<li><p><strong>A</strong>：MCO是STM32的一个时钟输出IO(PA8)，它可以选择一个时钟信号输出，可以选择为PLL输出的2分频、HSI、HSE、或者系统时钟。这个时钟可以用来给外部其他系统提供时钟源。</p>
 </li>
-<li><p><strong>B</strong>：这里是 RTC 时钟源，从图上可以看出，RTC 的时钟源可以选择 LSI，LSE，以及 HSE 的 128 分频。 </p>
+<li><p><strong>B</strong>：这里是RTC时钟源，从图上可以看出，RTC的时钟源可以选择LSI，LSE，以及HSE的128分频。</p>
 </li>
-<li><p><strong>C</strong>：C 处 USB 的时钟是来自 PLL 时钟源。STM32 中有一个全速功能 的 USB 模块，其串行接口引擎需要一个频率为 48MHz 的时钟源。该时钟源只能 从 PLL 输出端获取，可以选择为 1.5 分频或者 1 分频。当需要使用 USB 模块时，PLL 必须使能，并且时钟频率配置为 48MHz 或 72MHz。 </p>
+<li><p><strong>C</strong>：C处USB的时钟是来自PLL时钟源。STM32中有一个全速功能的USB模块，其串行接口引擎需要一个频率为48MHz的时钟源。该时钟源只能从PLL输出端获取，可以选择为1.5分频或者1分频。当需要使用USB模块时，PLL必须使能，并且时钟频率配置为48MHz或72MHz。</p>
 </li>
-<li><p><strong>D</strong>：D 处就是 STM32 的<strong>系统时钟 SYSCLK</strong>，它是供 STM32 中绝大部分部件工作的时钟源。系统时钟可选择为 PLL、HSI 或者 HSE。系统时钟最大频率为 72MHz。支持超频，一般情况为了系统稳定性是没有必要超频。 </p>
+<li><p><strong>D</strong>：D处就是STM32的<strong>系统时钟SYSCLK</strong>，它是供STM32中绝大部分部件工作的时钟源。系统时钟可选择为PLL、HSI或者HSE。系统时钟最大频率为72MHz。支持超频，一般情况为了系统稳定性是没有必要超频。</p>
 </li>
-<li><p><strong>E</strong>：E 处是指其他所有外设。从图可以看出，其他所有外设的时钟最终来源都是 SYSCLK。SYSCLK 通过 AHB 分频器分频后送给各模块使用。这些模块包括：</p>
+<li><p><strong>E</strong>：E处是指其他所有外设。从图可以看出，其他所有外设的时钟最终来源都是SYSCLK。SYSCLK通过AHB分频器分频后送给各模块使用。这些模块包括：</p>
 <ul>
 <li><ol>
-<li>AHB 总线、内核、内存和 DMA 使用的 HCLK 时钟 ；</li>
+<li>AHB总线、内核、内存和DMA使用的HCLK时钟；</li>
 </ol>
 </li>
 <li><ol start="2">
-<li>通过 8 分频后送给 Cortex 的<strong>系统定时器时钟</strong>，也就是 <strong>systick</strong>；</li>
+<li>通过8分频后送给Cortex的<strong>系统定时器时钟</strong>，也就是<strong>systick</strong>；</li>
 </ol>
 </li>
 <li><ol start="3">
-<li>直接送给 Cortex 的空闲运行时钟 FCLK；</li>
+<li>直接送给Cortex的空闲运行时钟FCLK；</li>
 </ol>
 </li>
 <li><ol start="4">
-<li>送给 APB1 分频器。APB1 分频器输出一路供 APB1 外设使用（PCLK1，最大频率 36MHz），另一路送给定时器（Timer）2、3、4 倍频器使用；</li>
+<li>送给APB1分频器。APB1分频器输出一路供APB1外设使用（PCLK1，最大频率36MHz），另一路送给定时器（Timer）2、3、4倍频器使用；</li>
 </ol>
 </li>
 <li><ol start="5">
-<li>送给 APB2 分频器。APB2 分频器输出一路供 APB2 外设使用（PCLK2， 最大频率 72MHz），另一路送给定时器（Timer）1 倍频器使用。 </li>
+<li>送给APB2分频器。APB2分频器输出一路供APB2外设使用（PCLK2，最大频率72MHz），另一路送给定时器（Timer）1倍频器使用。</li>
 </ol>
 </li>
 </ul>
-<p><strong>注意 APB1 和 APB2 的区别</strong>：</p>
-<p>APB1 上面连接的是低速外设，包括电源接口、 备份接口、CAN、USB、I2C1、I2C2、UART2、UART3 等等；</p>
-<p>APB2 上面连接的是高速外设，包括 UART1、SPI1、Timer1、ADC1、ADC2、所有普通 IO 口（PA~PE）、第二功能 IO 口等。</p>
+<p><strong>注意APB1和APB2的区别</strong>：</p>
+<p>APB1上面连接的是低速外设，包括电源接口、备份接口、CAN、USB、I2C1、I2C2、UART2、UART3等等；</p>
+<p>APB2上面连接的是高速外设，包括UART1、SPI1、Timer1、ADC1、ADC2、所有普通IO口（PA~PE）、第二功能IO口等。</p>
 </li>
 </ul>
-<p><strong>注意：在以上的时钟输出中，有很多是带使能控制的，当需要使用某模块时，记得一定要先使能对应的时钟。</strong></p>
+<p><strong>注意：在以上的时钟输出中，有很多是带使能控制的，当需要使用某模块时，记得一定要先使能对应的时钟！！！</strong></p>
 <hr>
-<h3 id="如何设置时钟"><a href="#如何设置时钟" class="headerlink" title="如何设置时钟"></a>如何设置时钟</h3><p>STM32 时钟系统的配置除了初始化的时候在 system_stm32f10x.c 中的 SystemInit( )函数中 外，其他的配置主要在 stm32f10x_rcc.c 文件中，里面有很多时钟设置函数。</p>
+<h3 id="如何设置时钟"><a href="#如何设置时钟" class="headerlink" title="如何设置时钟"></a>如何设置时钟</h3><p>STM32时钟系统的配置除了初始化的时候在system_stm32f10x.c中的SystemInit()函数中外，其他的配置主要在stm32f10x_rcc.c文件中，里面有很多时钟设置函数。</p>
 <hr>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>以上便是本文的全部内容，感谢阅读。</p>
 
@@ -286,8 +286,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/04/STM32/STM32F1%20%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8%E4%B8%8E%E9%87%8D%E6%98%A0%E5%B0%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="STM32 端口复用与重映射基础知识">
-      <i class="fa fa-chevron-left"></i> STM32 端口复用与重映射基础知识
+    <a href="/2020/09/11/STM32/%E4%BD%BF%E7%94%A8Keil5%20MDK%20%E6%96%B0%E5%BB%BASTM32%E5%B7%A5%E7%A8%8B%E9%A1%B9%E7%9B%AE%EF%BC%88%E5%9F%BA%E4%BA%8E%E5%9B%BA%E4%BB%B6%E5%BA%93%EF%BC%89/" rel="prev" title="使用Keil5 MDK新建STM32工程项目（基于固件库）">
+      <i class="fa fa-chevron-left"></i> 使用Keil5 MDK新建STM32工程项目（基于固件库）
     </a></div>
       <div class="post-nav-item">
     <a href="/2020/09/11/%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/Win10%20%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%20Hexo%20%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/" rel="next" title="Win10 系统搭建 Hexo 静态博客">
@@ -351,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E6%97%B6%E9%92%9F%E6%BA%90%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.1.</span> <span class="nav-text">使用多个时钟源的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32-%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.</span> <span class="nav-text">STM32 时钟系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STM32-%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.1.</span> <span class="nav-text">STM32 时钟系统结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E6%97%B6%E9%92%9F%E6%BA%90%E8%A7%A3%E6%9E%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">各时钟源解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E6%97%B6%E9%92%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何设置时钟</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E6%97%B6%E9%92%9F%E6%BA%90%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.1.</span> <span class="nav-text">使用多个时钟源的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32F1%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.</span> <span class="nav-text">STM32F1时钟系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STM32F1%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.1.</span> <span class="nav-text">STM32F1时钟系统结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E6%97%B6%E9%92%9F%E6%BA%90%E8%A7%A3%E6%9E%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">各时钟源解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E6%97%B6%E9%92%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何设置时钟</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">结束语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
